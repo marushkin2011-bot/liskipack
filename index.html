@@ -1,0 +1,2841 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L1SKI | Ресурс-паки и моды</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FFD700;
+            --primary-dark: #FFC107;
+            --secondary: #FFA500;
+            --accent: #FF6B00;
+            --dark: #000000;
+            --darker: #0A0A0A;
+            --light: #FFFFFF;
+            --gray: #888888;
+            --card-bg: rgba(20, 20, 20, 0.8);
+            --success: #00FF00;
+            --warning: #FFAA00;
+            --danger: #FF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker) 0%, #111111 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 165, 0, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 40% 40%, rgba(255, 107, 0, 0.03) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        /* Снег */
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .snowflake {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+        }
+
+        /* Звезды */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 5px 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+
+        .logo-text h1 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background: rgba(30, 30, 30, 0.8);
+            padding: 6px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .tab-btn {
+            padding: 12px 28px;
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--dark);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .tab-btn.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            animation: tabShine 2s infinite;
+        }
+
+        @keyframes tabShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Cloud Status */
+        .cloud-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            margin-right: 10px;
+        }
+
+        .cloud-status i {
+            color: var(--primary);
+        }
+
+        .cloud-status span {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Developer Panel Toggle */
+        .dev-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 10px 16px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            transition: all 0.3s;
+            user-select: none;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .dev-toggle:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .dev-toggle.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            color: var(--dark);
+        }
+
+        .dev-toggle i {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+            min-height: 70vh;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 2px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 20px;
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .empty-state h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+
+        /* Items Grid */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255, 215, 0, 0.1) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 1;
+        }
+
+        .item-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 215, 0, 0.3),
+                0 0 0 2px rgba(255, 215, 0, 0.1);
+        }
+
+        .item-card:hover::before {
+            opacity: 1;
+        }
+
+        .item-image {
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .item-card:hover .item-image img {
+            transform: scale(1.1);
+            filter: brightness(1) contrast(1.2);
+        }
+
+        .item-type {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--primary);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .item-info {
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .item-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            transition: color 0.3s;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .item-card:hover .item-info h3 {
+            color: var(--light);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .item-info p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .item-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+        }
+
+        .item-author i {
+            color: var(--accent);
+        }
+
+        .item-downloads {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+        }
+
+        .item-downloads i {
+            color: var(--primary);
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .download-btn, .preview-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--dark);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.5);
+            color: var(--dark);
+        }
+
+        .preview-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .preview-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        /* Developer Panel */
+        .developer-panel {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            padding: 30px;
+            border-left: 2px solid var(--primary);
+            transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow-y: auto;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .developer-panel.active {
+            right: 0;
+            box-shadow: -20px 0 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .panel-header h2 {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1.8rem;
+        }
+
+        .close-panel {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-panel:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: rotate(90deg);
+            border-color: var(--primary);
+        }
+
+        /* Security Code Input */
+        .security-section {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .security-section h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .security-section input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            border-radius: 10px;
+            color: var(--primary);
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            font-family: monospace;
+            transition: all 0.3s;
+        }
+
+        .security-section input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+            background: rgba(20, 20, 20, 0.9);
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+            background: rgba(40, 40, 40, 0.9);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            border: 2px dashed rgba(255, 215, 0, 0.5);
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(30, 30, 30, 0.5);
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .file-upload i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .file-upload p {
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .file-upload span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .file-preview {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .file-preview img {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        /* Data Management Section */
+        .data-management {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .data-management h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .data-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .export-btn, .import-btn, .copy-btn, .share-btn, .sync-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .export-btn:hover, .import-btn:hover, .copy-btn:hover, .share-btn:hover, .sync-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .sync-btn.active {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .sync-status {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .submit-btn, .delete-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: var(--dark);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.5);
+        }
+
+        .delete-btn {
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        .delete-btn:hover {
+            background: var(--danger);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(255, 68, 68, 0.4);
+        }
+
+        /* Item Modal */
+        .item-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .item-modal.active {
+            display: flex;
+            opacity: 1;
+            animation: modalAppear 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalAppear {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #151515 0%, #000000 100%);
+            width: 90%;
+            max-width: 800px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.7),
+                0 0 50px rgba(255, 215, 0, 0.3);
+            position: relative;
+            animation: modalContentAppear 0.5s 0.1s both;
+        }
+
+        @keyframes modalContentAppear {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 30px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(20, 20, 20, 0.9);
+        }
+
+        .modal-header h2 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .close-modal {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: rotate(90deg);
+            border-color: var(--primary);
+        }
+
+        .modal-body {
+            padding: 30px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-description {
+            color: var(--light);
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .modal-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .detail-item {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .detail-item i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .detail-item h4 {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-item p {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 3rem 0 2rem;
+            border-top: 2px solid var(--primary);
+            margin-top: 4rem;
+            box-shadow: 0 -5px 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .footer-logo h2 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .telegram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 12px 24px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .telegram-link:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+
+            .developer-panel {
+                width: 400px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-tabs {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .cloud-status {
+                position: absolute;
+                top: 80px;
+                right: 20px;
+            }
+
+            .dev-toggle {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .developer-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+
+            .form-actions, .modal-actions {
+                flex-direction: column;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .tab-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .data-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text h1 {
+                font-size: 1.6rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .modal-details {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Snow -->
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <!-- Animated Background -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>L1SKI</h1>
+                    <p>Ресурс-паки и моды</p>
+                </div>
+            </a>
+
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <button class="tab-btn active" data-tab="resource-packs">
+                    <i class="fas fa-cubes"></i>
+                    <span>Ресурс-паки</span>
+                </button>
+                <button class="tab-btn" data-tab="mods">
+                    <i class="fas fa-code"></i>
+                    <span>Моды</span>
+                </button>
+            </div>
+
+            <!-- Cloud Status -->
+            <div class="cloud-status" id="cloudStatus">
+                <i class="fas fa-cloud" id="cloudIcon"></i>
+                <span id="cloudText">Загрузка...</span>
+            </div>
+
+            <!-- Developer Panel Toggle -->
+            <div class="dev-toggle" id="devToggle">
+                <i class="fas fa-user-cog"></i>
+                <span>Панель разработчика</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Resource Packs Section -->
+        <section class="content-section active" id="resource-packs">
+            <h2 class="section-title">Ресурс-паки</h2>
+            <div class="items-grid" id="resource-packs-grid">
+                <!-- Items will be loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="resource-empty">
+                <i class="fas fa-cubes"></i>
+                <h3>Ресурс-паков пока нет</h3>
+                <p>Будьте первым, кто добавит ресурс-пак! Используйте панель разработчика для добавления.</p>
+            </div>
+        </section>
+
+        <!-- Mods Section -->
+        <section class="content-section" id="mods">
+            <h2 class="section-title">Моды</h2>
+            <div class="items-grid" id="mods-grid">
+                <!-- Items will be loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="mods-empty">
+                <i class="fas fa-code"></i>
+                <h3>Модов пока нет</h3>
+                <p>Будьте первым, кто добавит мод! Используйте панель разработчика для добавления.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Developer Panel -->
+    <div class="developer-panel" id="devPanel">
+        <div class="panel-header">
+            <h2><i class="fas fa-user-cog"></i> Панель разработчика</h2>
+            <button class="close-panel" id="closePanel">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Security Code Section -->
+        <div class="security-section">
+            <h3><i class="fas fa-key"></i> Код доступа</h3>
+            <input type="password" id="securityCode" placeholder="Введите код доступа" maxlength="10">
+        </div>
+
+        <!-- Form Section (initially hidden) -->
+        <div class="form-section" id="formSection">
+            <form id="itemForm">
+                <input type="hidden" id="editItemId" value="">
+
+                <div class="form-group">
+                    <label for="itemType">Тип контента:</label>
+                    <select id="itemType" required>
+                        <option value="">Выберите тип</option>
+                        <option value="resource-packs">Ресурс-пак</option>
+                        <option value="mods">Мод</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemName">Название:</label>
+                    <input type="text" id="itemName" placeholder="Например: Ultra HD Texture Pack" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemDescription">Описание:</label>
+                    <textarea id="itemDescription" placeholder="Подробное описание вашего ресурс-пака или мода..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemAuthor">Автор:</label>
+                    <input type="text" id="itemAuthor" placeholder="Ваш никнейм или имя" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Изображение:</label>
+                    <div class="file-upload" id="imageUpload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Перетащите изображение или <span>кликните для выбора</span></p>
+                        <p style="font-size: 0.8rem;">Рекомендуемый размер: 600x400px</p>
+                        <input type="file" id="itemImage" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="file-preview" id="imagePreview"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Файл для скачивания:</label>
+                    <div class="file-upload" id="fileUpload">
+                        <i class="fas fa-file-archive"></i>
+                        <p>Перетащите архив (ZIP/RAR) или <span>кликните для выбора</span></p>
+                        <p style="font-size: 0.8rem;">Максимальный размер: 100MB</p>
+                        <input type="file" id="itemFile" accept=".zip,.rar,.7z" style="display: none;">
+                    </div>
+                    <div id="fileInfo"></div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-plus-circle"></i>
+                        <span id="submitBtnText">Добавить</span>
+                    </button>
+                    <button type="button" class="delete-btn" id="deleteBtn" style="display: none;">
+                        <i class="fas fa-trash"></i>
+                        Удалить
+                    </button>
+                </div>
+            </form>
+
+            <!-- Data Management Section -->
+            <div class="data-management">
+                <h3><i class="fas fa-database"></i> Управление данными</h3>
+                <div class="sync-status" id="syncStatus">
+                    <i class="fas fa-sync"></i> Загрузка данных...
+                </div>
+                <div class="data-buttons">
+                    <button class="export-btn" id="exportBtn">
+                        <i class="fas fa-download"></i> Экспорт данных
+                    </button>
+                    <button class="import-btn" id="importBtn">
+                        <i class="fas fa-upload"></i> Импорт данных
+                    </button>
+                    <button class="copy-btn" id="copyDataBtn">
+                        <i class="fas fa-copy"></i> Копировать данные
+                    </button>
+                    <button class="share-btn" id="shareBtn">
+                        <i class="fas fa-share-alt"></i> Создать ссылку
+                    </button>
+                    <button class="sync-btn" id="syncBtn">
+                        <i class="fas fa-cloud-download-alt"></i> Синхронизировать
+                    </button>
+                </div>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+                <div id="dataStatus" style="margin-top: 10px; font-size: 0.9rem; color: var(--gray); text-align: center;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Modal -->
+    <div class="item-modal" id="itemModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="">
+                </div>
+                <p class="modal-description" id="modalDescription"></p>
+                <div class="modal-details">
+                    <div class="detail-item">
+                        <i class="fas fa-user"></i>
+                        <h4>Автор</h4>
+                        <p id="modalAuthor"></p>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-download"></i>
+                        <h4>Скачиваний</h4>
+                        <p id="modalDownloads">0</p>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-calendar"></i>
+                        <h4>Добавлен</h4>
+                        <p id="modalDate"></p>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-file-archive"></i>
+                        <h4>Размер</h4>
+                        <p id="modalSize">0 MB</p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="download-btn" id="modalDownloadBtn" style="flex: 2;">
+                        <i class="fas fa-download"></i>
+                        Скачать файл
+                    </button>
+                    <button class="preview-btn" id="closeModalBtn">
+                        <i class="fas fa-times"></i>
+                        Закрыть
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <div class="logo-icon" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h2>L1SKI</h2>
+            </div>
+
+            <a href="https://t.me/l1ski_official" class="telegram-link" target="_blank">
+                <i class="fab fa-telegram"></i>
+                Подписаться на Telegram канал
+            </a>
+
+            <p class="copyright">© 2023 L1SKI Platform. Все права защищены.</p>
+            <p class="copyright">Платформа для обмена ресурс-паками и модами</p>
+        </div>
+    </footer>
+
+    <script>
+        // =================== КОНФИГУРАЦИЯ JSONBIN ===================
+        // ВНИМАНИЕ: Замените эти значения на свои после регистрации на JSONBin.io
+        const JSONBIN_CONFIG = {
+            BIN_ID: "695c177ed0ea881f40569190", // Замените на ваш Bin ID (например: "650a1b8c12a5d376599b8a9f")
+            API_KEY: "$2a$10$FcIhtqA.wZv1846xfm4TpO1EVuZa9WX7KSs8F5NDnWL/.toHjNWDe", // Замените на ваш API Key (начинается с $2a$10$...)
+            BASE_URL: "https://api.jsonbin.io/v3/b"
+        };
+
+        // =================== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ===================
+        // Items data storage
+        let items = {
+            'resource-packs': [],
+            'mods': []
+        };
+
+        // Security code
+        const SECURITY_CODE = "vbif090211";
+        let isAuthenticated = false;
+
+        // Для отслеживания изменений
+        let hasUnsavedChanges = false;
+        let lastCloudUpdate = null;
+
+        // DOM Elements
+        const devToggle = document.getElementById('devToggle');
+        const devPanel = document.getElementById('devPanel');
+        const closePanel = document.getElementById('closePanel');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const contentSections = document.querySelectorAll('.content-section');
+        const securityCodeInput = document.getElementById('securityCode');
+        const formSection = document.getElementById('formSection');
+        const itemForm = document.getElementById('itemForm');
+        const itemTypeSelect = document.getElementById('itemType');
+        const imageUpload = document.getElementById('imageUpload');
+        const imageInput = document.getElementById('itemImage');
+        const imagePreview = document.getElementById('imagePreview');
+        const fileUpload = document.getElementById('fileUpload');
+        const fileInput = document.getElementById('itemFile');
+        const fileInfo = document.getElementById('fileInfo');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const submitBtnText = document.getElementById('submitBtnText');
+        const itemModal = document.getElementById('itemModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const importBtn = document.getElementById('importBtn');
+        const importFile = document.getElementById('importFile');
+        const copyDataBtn = document.getElementById('copyDataBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const syncBtn = document.getElementById('syncBtn');
+        const dataStatus = document.getElementById('dataStatus');
+        const syncStatus = document.getElementById('syncStatus');
+        const cloudStatus = document.getElementById('cloudStatus');
+        const cloudIcon = document.getElementById('cloudIcon');
+        const cloudText = document.getElementById('cloudText');
+
+        // Current editing item
+        let editingItem = null;
+
+        // =================== ФУНКЦИИ ОБЛАЧНОГО ХРАНИЛИЩА ===================
+
+        // Обновление статуса облака
+        function updateCloudStatus(message, status) {
+            cloudText.textContent = message;
+
+            const colors = {
+                syncing: 'var(--warning)',
+                synced: 'var(--success)',
+                loading: 'var(--primary)',
+                error: 'var(--danger)',
+                offline: 'var(--gray)'
+            };
+
+            const icons = {
+                syncing: 'fa-sync-alt fa-spin',
+                synced: 'fa-check-circle',
+                loading: 'fa-cloud',
+                error: 'fa-exclamation-circle',
+                offline: 'fa-cloud'
+            };
+
+            cloudIcon.className = `fas ${icons[status] || 'fa-cloud'}`;
+            cloudStatus.style.borderColor = colors[status] || 'var(--primary)';
+            cloudIcon.style.color = colors[status] || 'var(--primary)';
+            cloudText.style.color = colors[status] || 'var(--primary)';
+        }
+
+        // Сохранение данных в JSONBin
+        async function saveToCloud() {
+            try {
+                if (!JSONBIN_CONFIG.BIN_ID || JSONBIN_CONFIG.BIN_ID === "695c177ed0ea881f40569190") {
+                    throw new Error('Не настроен Bin ID. Замените ВАШ_BIN_ID на свой.');
+                }
+
+                updateCloudStatus('Сохранение в облако...', 'syncing');
+
+                // Подготовка данных ДЛЯ ОБЛАКА (с файлами и изображениями)
+                const cloudData = {
+                    'resource-packs': await prepareItemsForCloud(items['resource-packs']),
+                    'mods': await prepareItemsForCloud(items['mods']),
+                    meta: {
+                        lastUpdate: new Date().toISOString(),
+                        totalItems: items['resource-packs'].length + items['mods'].length,
+                        version: '2.0-full'
+                    }
+                };
+
+                // Сохраняем в JSONBin
+                const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}/${JSONBIN_CONFIG.BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_CONFIG.API_KEY,
+                        'X-Bin-Versioning': 'false'
+                    },
+                    body: JSON.stringify(cloudData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    lastCloudUpdate = result.metadata?.updatedAt || new Date().toISOString();
+                    updateCloudStatus('Сохранено', 'synced');
+                    hasUnsavedChanges = false;
+
+                    // Также сохраняем локально для быстрого доступа
+                    saveToLocalStorage();
+
+                    showNotification('✅ Все данные сохранены в облаке!', 'success');
+                    return true;
+                } else {
+                    throw new Error(`Ошибка API: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Ошибка сохранения в облако:', error);
+                updateCloudStatus('Ошибка', 'error');
+
+                // Резервное сохранение в localStorage
+                localStorage.setItem('l1ski-cloud-backup', JSON.stringify({
+                    items: items,
+                    timestamp: new Date().toISOString(),
+                    error: error.message
+                }));
+
+                showNotification('⚠️ Ошибка облака. Данные сохранены локально.', 'warning');
+                return false;
+            }
+        }
+
+        // Подготовка элементов для облака (сохранение файлов и изображений)
+        async function prepareItemsForCloud(itemsArray) {
+            return itemsArray.map(item => {
+                // Ограничиваем размер изображения для облака (макс 500KB)
+                let optimizedImage = item.image;
+                if (item.image && item.image.length > 500000) { // ~500KB
+                    optimizedImage = optimizeImageForCloud(item.image);
+                }
+
+                return {
+                    id: item.id,
+                    name: item.name,
+                    description: item.description,
+                    author: item.author,
+                    type: item.type,
+                    downloads: item.downloads || 0,
+                    date: item.date,
+                    size: item.size,
+                    fileName: item.fileName,
+                    // Сохраняем изображение в облако
+                    image: optimizedImage,
+                    // Сохраняем файл в облако (если не слишком большой)
+                    fileData: item.fileData && item.fileData.length < 1000000 ? item.fileData : undefined, // 1MB лимит
+                    fileDataSize: item.fileData ? item.fileData.length : 0
+                };
+            });
+        }
+
+        // Оптимизация изображения для облака
+        function optimizeImageForCloud(base64Image) {
+            // Простое ограничение размера - обрезаем если слишком большое
+            if (base64Image.length > 500000) {
+                // Берем только первые 500KB
+                return base64Image.substring(0, 500000);
+            }
+            return base64Image;
+        }
+
+        // Загрузка данных из JSONBin
+        async function loadFromCloud() {
+            try {
+                if (!JSONBIN_CONFIG.BIN_ID || JSONBIN_CONFIG.BIN_ID === "695c177ed0ea881f40569190") {
+                    // Если Bin ID не настроен, используем локальные данные
+                    updateCloudStatus('Настройте Bin ID', 'error');
+                    loadFromLocalStorage();
+                    return false;
+                }
+
+                updateCloudStatus('Загрузка...', 'loading');
+
+                const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}/${JSONBIN_CONFIG.BIN_ID}/latest`, {
+                    headers: {
+                        'X-Master-Key': JSONBIN_CONFIG.API_KEY
+                    }
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const cloudData = result.record;
+
+                    if (hasCloudData) {
+                        // ЕСТЬ данные в облаке - используем их
+                        items = {
+                            'resource-packs': cloudData['resource-packs'] || [],
+                            'mods': cloudData['mods'] || []
+                        };
+
+                        lastCloudUpdate = result.metadata?.updatedAt;
+                        updateCloudStatus('Синхронизировано', 'synced');
+
+                        // Восстанавливаем файлы из облачных данных
+                        // (больше не нужен restoreFilesFromCache для облачных данных)
+
+                        // Обновляем UI
+                        renderItems('resource-packs');
+                        renderItems('mods');
+                        updateEmptyStates();
+                        updateDataStatus();
+
+                        // Сохраняем локально как резервную копию
+                        saveToLocalStorage();
+
+                        showNotification('✅ Все данные загружены из облака!', 'success');
+                        return true;
+                    }
+                }
+                throw new Error('Нет данных в облаке');
+            } catch (error) {
+                console.error('Ошибка загрузки из облака:', error);
+                updateCloudStatus('Оффлайн', 'offline');
+
+                // Пробуем загрузить из локального бэкапа
+                const backup = localStorage.getItem('l1ski-cloud-backup');
+                if (backup) {
+                    try {
+                        const backupData = JSON.parse(backup);
+                        if (backupData.items) {
+                            items = backupData.items;
+                            showNotification('⚠️ Облако недоступно. Использованы локальные данные.', 'warning');
+                        }
+                    } catch (e) {
+                        console.error('Ошибка загрузки бэкапа:', e);
+                    }
+                }
+
+                // Всегда показываем локальные данные
+                loadFromLocalStorage();
+                renderItems('resource-packs');
+                renderItems('mods');
+                updateEmptyStates();
+                updateDataStatus();
+
+                return false;
+            }
+        }
+
+        // Кэширование файлов локально
+        function cacheItemData(item) {
+            if (item.fileData && item.id) {
+                const type = item.type;
+                const cachedFiles = JSON.parse(localStorage.getItem(`l1ski-files-${type}`) || '{}');
+                cachedFiles[item.id] = {
+                    fileData: item.fileData,
+                    fileName: item.fileName,
+                    cachedAt: new Date().toISOString()
+                };
+                localStorage.setItem(`l1ski-files-${type}`, JSON.stringify(cachedFiles));
+            }
+        }
+
+        // Восстановление файлов из локального кэша
+        // Восстановление изображений и файлов из локального кэша
+        // Восстановление изображений и файлов из локального кэша
+        function restoreFilesFromCache() {
+            // Миграция: переносим старые данные в новую структуру
+            migrateOldCacheData();
+
+            ['resource-packs', 'mods'].forEach(type => {
+                // Восстанавливаем изображения из нового кэша
+                const cachedImages = JSON.parse(localStorage.getItem(`l1ski-images-${type}`) || '{}');
+
+                // Восстанавливаем файлы из нового кэша
+                const cachedFiles = JSON.parse(localStorage.getItem(`l1ski-files-${type}`) || '{}');
+
+                items[type] = items[type].map(item => {
+                    const restoredItem = { ...item };
+
+                    // Восстанавливаем изображение
+                    if (cachedImages[item.id]) {
+                        restoredItem.image = cachedImages[item.id].imageData;
+                    }
+
+                    // Восстанавливаем файл
+                    if (cachedFiles[item.id]) {
+                        restoredItem.fileData = cachedFiles[item.id].fileData;
+                        restoredItem.fileName = cachedFiles[item.id].fileName;
+                    }
+
+                    return restoredItem;
+                });
+            });
+        }
+
+        // Миграция старых данных
+        function migrateOldCacheData() {
+            ['resource-packs', 'mods'].forEach(type => {
+                const oldFilesCache = JSON.parse(localStorage.getItem(`l1ski-files-${type}`) || '{}');
+                let needsMigration = false;
+
+                // Проверяем, есть ли изображения в старом кэше файлов
+                Object.keys(oldFilesCache).forEach(itemId => {
+                    const cacheEntry = oldFilesCache[itemId];
+                    if (cacheEntry.imageData) {
+                        needsMigration = true;
+
+                        // Переносим изображение в новый кэш
+                        const newImageCache = JSON.parse(localStorage.getItem(`l1ski-images-${type}`) || '{}');
+                        newImageCache[itemId] = {
+                            imageData: cacheEntry.imageData,
+                            cachedAt: cacheEntry.cachedAt || new Date().toISOString()
+                        };
+                        localStorage.setItem(`l1ski-images-${type}`, JSON.stringify(newImageCache));
+
+                        // Удаляем изображение из старого кэша
+                        delete cacheEntry.imageData;
+                    }
+                });
+
+                if (needsMigration) {
+                    localStorage.setItem(`l1ski-files-${type}`, JSON.stringify(oldFilesCache));
+                }
+            });
+        }
+
+        // =================== ЛОКАЛЬНЫЕ ФУНКЦИИ ===================
+
+        function saveToLocalStorage() {
+            try {
+                const itemsToSave = {
+                    'resource-packs': items['resource-packs'].map(item => ({
+                        ...item,
+                        fileData: item.fileData ? 'cached' : undefined
+                    })),
+                    'mods': items['mods'].map(item => ({
+                        ...item,
+                        fileData: item.fileData ? 'cached' : undefined
+                    })),
+                    lastSave: new Date().toISOString()
+                };
+
+                localStorage.setItem('l1ski-items', JSON.stringify(itemsToSave));
+            } catch (error) {
+                console.error('Ошибка локального сохранения:', error);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem('l1ski-items');
+                if (saved) {
+                    const loadedItems = JSON.parse(saved);
+                    items = {
+                        'resource-packs': loadedItems['resource-packs'] || [],
+                        'mods': loadedItems['mods'] || []
+                    };
+                    updateDataStatus();
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки локальных данных:', error);
+            }
+        }
+
+        // =================== ОСНОВНЫЕ ФУНКЦИИ ===================
+
+        function addItem(item) {
+            items[item.type].unshift(item);
+            renderItems(item.type);
+            updateEmptyStates();
+
+            // Кэшируем файл локально
+            cacheItemData(item);
+
+            // Помечаем изменения для сохранения в облако
+            hasUnsavedChanges = true;
+
+            // Автосохранение в облако через 2 секунды
+            setTimeout(() => {
+                if (hasUnsavedChanges) {
+                    saveToCloud();
+                }
+            }, 2000);
+
+            showNotification('✅ Добавлено успешно! Все пользователи увидят это изменение.', 'success');
+            updateDataStatus();
+        }
+
+        function updateItem(item) {
+            const type = editingItem.type;
+            const index = items[type].findIndex(i => i.id === editingItem.id);
+            if (index !== -1) {
+                items[type][index] = item;
+                renderItems(type);
+
+                // Кэшируем файл локально
+                cacheItemData(item);
+
+                // Помечаем изменения для сохранения в облако
+                hasUnsavedChanges = true;
+                setTimeout(() => saveToCloud(), 2000);
+
+                showNotification('✅ Обновлено успешно!', 'success');
+                updateDataStatus();
+            }
+        }
+
+        function handleDeleteItem() {
+            if (!editingItem || !confirm('Вы уверены, что хотите удалить этот элемент? Это удалит его у всех пользователей.')) return;
+
+            const type = editingItem.type;
+            items[type] = items[type].filter(item => item.id !== editingItem.id);
+
+            renderItems(type);
+            updateEmptyStates();
+            resetForm();
+            toggleDevPanel();
+
+            // Помечаем изменения для сохранения в облако
+            hasUnsavedChanges = true;
+            setTimeout(() => saveToCloud(), 2000);
+
+            showNotification('✅ Удалено успешно! Элемент удален у всех пользователей.', 'success');
+            updateDataStatus();
+        }
+
+        function updateDataStatus() {
+            const totalItems = items['resource-packs'].length + items['mods'].length;
+            const lastUpdate = lastCloudUpdate ? new Date(lastCloudUpdate).toLocaleTimeString('ru-RU') : 'никогда';
+
+            dataStatus.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span>Ресурс-паков:</span>
+                    <span style="color: var(--primary);">${items['resource-packs'].length}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span>Модов:</span>
+                    <span style="color: var(--primary);">${items['mods'].length}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 215, 0, 0.2);">
+                    <span>Всего:</span>
+                    <span style="color: var(--primary);">${totalItems}</span>
+                </div>
+                <div style="margin-top: 5px; font-size: 0.8rem; color: var(--gray);">
+                    Обновлено: ${lastUpdate}
+                </div>
+            `;
+        }
+
+        // =================== ОСТАЛЬНОЙ КОД (без изменений) ===================
+
+        // Функция для создания shareable ссылки
+        function generateShareLink() {
+            try {
+                console.log('Начинаю создание ссылки...');
+                console.log('Данные для отправки:', items);
+
+                // Преобразуем данные в строку JSON
+                const dataString = JSON.stringify(items);
+                console.log('Данные в JSON:', dataString);
+
+                // Кодируем в base64 БЕЗ спецсимволов
+                let dataToShare;
+                try {
+                    dataToShare = btoa(unescape(encodeURIComponent(dataString)));
+                    console.log('Данные в base64:', dataToShare);
+                } catch (e) {
+                    console.error('Ошибка кодирования base64:', e);
+                    // Альтернативный метод
+                    dataToShare = btoa(dataString);
+                }
+
+                // Получаем текущий URL
+                let currentUrl;
+                if (window.location.hostname === '') {
+                    // Если открыт локальный файл
+                    currentUrl = 'file://' + window.location.pathname;
+                } else {
+                    currentUrl = window.location.origin + window.location.pathname;
+                }
+
+                // Создаем ссылку
+                const shareLink = `${currentUrl}?share=${encodeURIComponent(dataToShare)}`;
+                console.log('Созданная ссылка:', shareLink);
+
+                // Проверяем длину ссылки
+                if (shareLink.length > 2000) {
+                    console.warn('Ссылка слишком длинная:', shareLink.length, 'символов');
+                    showNotification('Слишком много данных для ссылки. Используйте Экспорт/Импорт файла.', 'warning');
+                    return;
+                }
+
+                // Пробуем скопировать в буфер обмена
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(shareLink).then(() => {
+                        console.log('Ссылка скопирована в буфер обмена');
+                        showNotification('Ссылка скопирована! Откройте её в другом браузере.', 'success');
+                        showShareLinkPopup(shareLink);
+                    }).catch(err => {
+                        console.warn('Clipboard API не сработал, пробую fallback:', err);
+                        fallbackCopyToClipboard(shareLink);
+                    });
+                } else {
+                    console.log('Clipboard API не поддерживается, использую fallback');
+                    fallbackCopyToClipboard(shareLink);
+                }
+
+            } catch (error) {
+                console.error('Критическая ошибка создания ссылки:', error);
+                showNotification('Ошибка создания ссылки. Используйте Экспорт данных.', 'error');
+            }
+        }
+
+        // Fallback метод копирования
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    console.log('Ссылка скопирована через fallback метод');
+                    showNotification('Ссылка скопирована! Откройте её в другом браузере.', 'success');
+                    showShareLinkPopup(text);
+                } else {
+                    throw new Error('Не удалось скопировать');
+                }
+            } catch (err) {
+                console.error('Fallback метод не сработал:', err);
+                // Показываем ссылку напрямую
+                showShareLinkPopup(text);
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // Показывает всплывающее окно со ссылкой
+        function showShareLinkPopup(link) {
+            // Создаем модальное окно
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 5000;
+                backdrop-filter: blur(5px);
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: linear-gradient(145deg, #000000 0%, #151515 100%);
+                    border: 2px solid var(--primary);
+                    border-radius: 20px;
+                    padding: 30px;
+                    max-width: 500px;
+                    width: 90%;
+                    box-shadow: 0 20px 50px rgba(255, 215, 0, 0.3);
+                ">
+                    <h3 style="color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-link"></i> Ссылка для другого браузера
+                    </h3>
+                    <div style="
+                        background: rgba(30, 30, 30, 0.8);
+                        border: 1px solid rgba(255, 215, 0, 0.3);
+                        border-radius: 10px;
+                        padding: 15px;
+                        margin: 15px 0;
+                        word-break: break-all;
+                        font-family: monospace;
+                        font-size: 0.9rem;
+                        color: var(--primary);
+                        max-height: 200px;
+                        overflow-y: auto;
+                    ">
+                        ${link}
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button onclick="copyLinkToClipboard('${link.replace(/'/g, "\\'")}')" style="
+                            flex: 1;
+                            padding: 12px;
+                            background: rgba(255, 215, 0, 0.2);
+                            border: 1px solid var(--primary);
+                            border-radius: 10px;
+                            color: var(--primary);
+                            cursor: pointer;
+                            font-weight: 600;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 8px;
+                        ">
+                            <i class="fas fa-copy"></i> Копировать
+                        </button>
+                        <button onclick="closeShareLinkPopup()" style="
+                            padding: 12px 24px;
+                            background: rgba(255, 68, 68, 0.2);
+                            border: 1px solid var(--danger);
+                            border-radius: 10px;
+                            color: var(--danger);
+                            cursor: pointer;
+                            font-weight: 600;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 8px;
+                        ">
+                            <i class="fas fa-times"></i> Закрыть
+                        </button>
+                    </div>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-top: 15px;">
+                        Откройте эту ссылку в другом браузере чтобы импортировать данные
+                    </p>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Добавляем функции в глобальную область видимости
+            window.copyLinkToClipboard = function(text) {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showNotification('Ссылка скопирована!', 'success');
+                    }).catch(() => {
+                        fallbackCopyToClipboard(text);
+                    });
+                } else {
+                    fallbackCopyToClipboard(text);
+                }
+            };
+
+            window.closeShareLinkPopup = function() {
+                document.body.removeChild(modal);
+            };
+        }
+
+        // Функция для проверки URL на наличие общих данных
+        function checkURLForSharedData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sharedData = urlParams.get('share');
+
+            if (sharedData) {
+                try {
+                    const decodedData = JSON.parse(atob(sharedData));
+
+                    if (confirm('Найдены данные для импорта из ссылки. Импортировать их?')) {
+                        items = decodedData;
+                        renderItems('resource-packs');
+                        renderItems('mods');
+                        updateEmptyStates();
+                        saveToLocalStorage();
+                        updateDataStatus();
+
+                        window.history.replaceState({}, document.title, window.location.pathname);
+
+                        showNotification('Данные импортированы из ссылки!', 'success');
+                    }
+                } catch (error) {
+                    console.error('Ошибка импорта из URL:', error);
+                    showNotification('Ошибка импорта данных из ссылки', 'error');
+                }
+            }
+        }
+
+        // Экспорт данных
+        function exportData() {
+            const dataToExport = {
+                items: items,
+                exportDate: new Date().toISOString(),
+                version: '1.0',
+                site: 'L1SKI Platform'
+            };
+
+            const dataStr = JSON.stringify(dataToExport, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+            const exportFileDefaultName = `l1ski-backup-${new Date().toISOString().split('T')[0]}.json`;
+
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+
+            showNotification('Данные успешно экспортированы!', 'success');
+        }
+
+        // Импорт данных
+        function importData(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+
+                    if (!importedData.items || (!importedData.items['resource-packs'] && !importedData.items['mods'])) {
+                        throw new Error('Неверный формат файла');
+                    }
+
+                    if (confirm('Вы уверены, что хотите импортировать данные? Текущие данные будут заменены.')) {
+                        items = {
+                            'resource-packs': importedData.items['resource-packs'] || [],
+                            'mods': importedData.items['mods'] || []
+                        };
+
+                        renderItems('resource-packs');
+                        renderItems('mods');
+                        updateEmptyStates();
+                        saveToLocalStorage();
+                        updateDataStatus();
+
+                        // Помечаем для синхронизации с облаком
+                        hasUnsavedChanges = true;
+                        setTimeout(() => saveToCloud(), 2000);
+
+                        showNotification('Данные успешно импортированы!', 'success');
+                    }
+                } catch (error) {
+                    alert('Ошибка при импорте файла. Убедитесь, что файл в правильном формате.');
+                    console.error('Import error:', error);
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        }
+
+        // Копирование данных в буфер обмена
+        function copyDataToClipboard() {
+            const dataToCopy = JSON.stringify(items, null, 2);
+
+            navigator.clipboard.writeText(dataToCopy).then(() => {
+                showNotification('Данные скопированы в буфер обмена!', 'success');
+            }).catch(err => {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = dataToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showNotification('Данные скопированы в буфер обмена!', 'success');
+            });
+        }
+
+        // =================== ОСНОВНОЙ КОД ===================
+        function setupEventListeners() {
+            // Developer panel toggle
+            devToggle.addEventListener('click', toggleDevPanel);
+            closePanel.addEventListener('click', toggleDevPanel);
+
+            // Security code input
+            securityCodeInput.addEventListener('input', checkSecurityCode);
+            securityCodeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkSecurityCode();
+                }
+            });
+
+            // Tab switching
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    switchTab(tabId);
+                });
+            });
+
+            // File uploads
+            imageUpload.addEventListener('click', () => imageInput.click());
+            imageInput.addEventListener('change', handleImageUpload);
+
+            fileUpload.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileUpload);
+
+            // Data management buttons
+            exportBtn.addEventListener('click', exportData);
+            importBtn.addEventListener('click', () => importFile.click());
+            importFile.addEventListener('change', importData);
+            copyDataBtn.addEventListener('click', copyDataToClipboard);
+            shareBtn.addEventListener('click', generateShareLink);
+            syncBtn.addEventListener('click', () => {
+                syncBtn.classList.add('active');
+                loadFromCloud().finally(() => {
+                    setTimeout(() => syncBtn.classList.remove('active'), 1000);
+                });
+            });
+
+            // Drag and drop for files
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                imageUpload.addEventListener(eventName, preventDefaults, false);
+                fileUpload.addEventListener(eventName, preventDefaults, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                imageUpload.addEventListener(eventName, highlight, false);
+                fileUpload.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                imageUpload.addEventListener(eventName, unhighlight, false);
+                fileUpload.addEventListener(eventName, unhighlight, false);
+            });
+
+            imageUpload.addEventListener('drop', handleImageDrop, false);
+            fileUpload.addEventListener('drop', handleFileDrop, false);
+
+            // Form submission
+            itemForm.addEventListener('submit', handleFormSubmit);
+
+            // Delete button
+            deleteBtn.addEventListener('click', handleDeleteItem);
+
+            // Modal
+            closeModal.addEventListener('click', closeItemModal);
+            closeModalBtn.addEventListener('click', closeItemModal);
+            modalDownloadBtn.addEventListener('click', handleModalDownload);
+
+            // Close modal on outside click
+            itemModal.addEventListener('click', function(e) {
+                if (e.target === itemModal) {
+                    closeItemModal();
+                }
+            });
+
+            // Автосинхронизация каждые 60 секунд
+            setInterval(() => {
+                if (hasUnsavedChanges) {
+                    saveToCloud();
+                } else {
+                    loadFromCloud();
+                }
+            }, 60000); // 60 секунд
+        }
+
+        function checkSecurityCode() {
+            const enteredCode = securityCodeInput.value;
+
+            if (enteredCode === SECURITY_CODE) {
+                isAuthenticated = true;
+                formSection.classList.add('active');
+                securityCodeInput.style.borderColor = 'var(--primary)';
+                securityCodeInput.style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+                showNotification('Код принят! Доступ разрешен.', 'success');
+            } else if (enteredCode.length === SECURITY_CODE.length) {
+                securityCodeInput.style.borderColor = 'var(--danger)';
+                securityCodeInput.style.boxShadow = '0 0 10px rgba(255, 68, 68, 0.5)';
+                securityCodeInput.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    securityCodeInput.style.animation = '';
+                }, 500);
+
+                if (enteredCode !== '') {
+                    showNotification('Неверный код доступа!', 'error');
+                }
+            }
+        }
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight(e) {
+            e.currentTarget.style.borderColor = 'var(--primary)';
+            e.currentTarget.style.background = 'rgba(255, 215, 0, 0.2)';
+            e.currentTarget.style.boxShadow = '0 0 20px rgba(255, 215, 0, 0.3)';
+        }
+
+        function unhighlight(e) {
+            e.currentTarget.style.borderColor = 'rgba(255, 215, 0, 0.5)';
+            e.currentTarget.style.background = 'rgba(30, 30, 30, 0.5)';
+            e.currentTarget.style.boxShadow = 'none';
+        }
+
+        function handleImageUpload() {
+            const file = imageInput.files[0];
+            if (file) {
+                previewImage(file);
+            }
+        }
+
+        function handleImageDrop(e) {
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.match('image.*')) {
+                imageInput.files = e.dataTransfer.files;
+                previewImage(file);
+            }
+        }
+
+        function previewImage(file) {
+            if (!file.type.match('image.*')) {
+                alert('Пожалуйста, выберите файл изображения');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.innerHTML = `<img src="${e.target.result}" alt="Предпросмотр">`;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleFileUpload() {
+            const file = fileInput.files[0];
+            if (file) {
+                previewFile(file);
+            }
+        }
+
+        function handleFileDrop(e) {
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                fileInput.files = e.dataTransfer.files;
+                previewFile(file);
+            }
+        }
+
+        function previewFile(file) {
+            const validTypes = ['.zip', '.rar', '.7z'];
+            const fileName = file.name.toLowerCase();
+            const isValid = validTypes.some(type => fileName.endsWith(type));
+
+            if (!isValid) {
+                alert('Пожалуйста, выберите архивный файл (ZIP, RAR, 7Z)');
+                fileInput.value = '';
+                return;
+            }
+
+            const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+            fileInfo.innerHTML = `
+                <div style="background: rgba(255, 215, 0, 0.1); padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-archive" style="color: var(--primary);"></i>
+                        <div>
+                            <strong style="color: var(--primary);">${file.name}</strong>
+                            <div style="color: var(--gray); font-size: 0.9rem;">${fileSize} MB</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleDevPanel() {
+            devPanel.classList.toggle('active');
+            devToggle.classList.toggle('active');
+
+            if (!devPanel.classList.contains('active')) {
+                resetForm();
+                isAuthenticated = false;
+                securityCodeInput.value = '';
+                formSection.classList.remove('active');
+                securityCodeInput.style.borderColor = 'rgba(255, 215, 0, 0.5)';
+                securityCodeInput.style.boxShadow = 'none';
+            }
+        }
+
+        function switchTab(tabId) {
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === tabId) btn.classList.add('active');
+            });
+
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === tabId) section.classList.add('active');
+            });
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            if (!isAuthenticated) {
+                showNotification('Сначала введите правильный код доступа!', 'error');
+                securityCodeInput.focus();
+                return;
+            }
+
+            const itemType = itemTypeSelect.value;
+            const itemName = document.getElementById('itemName').value;
+            const itemDescription = document.getElementById('itemDescription').value;
+            const itemAuthor = document.getElementById('itemAuthor').value;
+            const itemImage = imageInput.files[0];
+            const itemFile = fileInput.files[0];
+
+            if (!itemType || !itemName || !itemDescription || !itemAuthor || !itemImage || !itemFile) {
+                alert('Пожалуйста, заполните все поля и загрузите изображение и файл');
+                return;
+            }
+
+            const item = {
+                id: editingItem ? editingItem.id : Date.now(),
+                name: itemName,
+                description: itemDescription,
+                author: itemAuthor,
+                type: itemType,
+                downloads: 0,
+                date: new Date().toLocaleDateString('ru-RU'),
+                size: (itemFile.size / (1024 * 1024)).toFixed(2)
+            };
+
+            const imageReader = new FileReader();
+            imageReader.onload = function(e) {
+                item.image = e.target.result;
+
+                const fileReader = new FileReader();
+                fileReader.onload = function(e) {
+                    item.fileData = e.target.result;
+                    item.fileName = itemFile.name;
+
+                    if (editingItem) {
+                        updateItem(item);
+                    } else {
+                        addItem(item);
+                    }
+
+                    resetForm();
+                    toggleDevPanel();
+                };
+                fileReader.readAsDataURL(itemFile);
+            };
+            imageReader.readAsDataURL(itemImage);
+        }
+
+        function renderItems(type) {
+            const grid = document.getElementById(`${type}-grid`);
+            grid.innerHTML = '';
+
+            items[type].forEach(item => {
+                const card = createItemCard(item);
+                grid.appendChild(card);
+            });
+        }
+
+        function createItemCard(item) {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.dataset.id = item.id;
+
+            card.innerHTML = `
+                <div class="item-image">
+                    <img src="${item.image}" alt="${item.name}" loading="lazy">
+                    <div class="item-type">${item.type === 'resource-packs' ? 'Ресурс-пак' : 'Мод'}</div>
+                </div>
+                <div class="item-info">
+                    <h3>${item.name}</h3>
+                    <p>${item.description.length > 100 ? item.description.substring(0, 100) + '...' : item.description}</p>
+                    <div class="item-meta">
+                        <div class="item-author">
+                            <i class="fas fa-user"></i>
+                            <span>${item.author}</span>
+                        </div>
+                        <div class="item-downloads">
+                            <i class="fas fa-download"></i>
+                            <span>${item.downloads}</span>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="download-btn" data-action="download">
+                            <i class="fas fa-download"></i>
+                            Скачать
+                        </button>
+                        <button class="preview-btn" data-action="preview">
+                            <i class="fas fa-eye"></i>
+                            Подробнее
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const downloadBtn = card.querySelector('[data-action="download"]');
+            const previewBtn = card.querySelector('[data-action="preview"]');
+
+            downloadBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                downloadItem(item);
+            });
+
+            previewBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openItemModal(item);
+            });
+
+            card.addEventListener('dblclick', (e) => {
+                if (devToggle.classList.contains('active')) {
+                    e.stopPropagation();
+                    editItem(item);
+                }
+            });
+
+            return card;
+        }
+
+        function downloadItem(item) {
+            item.downloads = (item.downloads || 0) + 1;
+            renderItems(item.type);
+
+            // Обновляем счетчик в облаке
+            hasUnsavedChanges = true;
+            setTimeout(() => saveToCloud(), 3000);
+
+            updateDataStatus();
+
+            if (item.fileData) {
+                // Пытаемся скачать файл из облачных данных
+                try {
+                    // Проверяем, что это валидный base64
+                    if (item.fileData.startsWith('data:')) {
+                        const byteCharacters = atob(item.fileData.split(',')[1]);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+
+                        // Определяем MIME тип
+                        let mimeType = 'application/zip';
+                        if (item.fileName) {
+                            if (item.fileName.endsWith('.rar')) mimeType = 'application/x-rar-compressed';
+                            else if (item.fileName.endsWith('.7z')) mimeType = 'application/x-7z-compressed';
+                        }
+
+                        const blob = new Blob([byteArray], {type: mimeType});
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+
+                        // Используем оригинальное имя файла или генерируем
+                        let fileName = item.fileName || `${item.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.zip`;
+                        link.download = fileName;
+
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+
+                        setTimeout(() => URL.revokeObjectURL(url), 100);
+                        showNotification(`✅ Скачивание: ${item.name}`, 'success');
+                    } else {
+                        throw new Error('Неверный формат файла');
+                    }
+                } catch (error) {
+                    console.error('Ошибка скачивания файла:', error);
+                    // Fallback: создаем текстовый файл с информацией
+                    createInfoFile(item);
+                }
+            } else {
+                // Если файла нет - создаем информационный файл
+                createInfoFile(item);
+            }
+        }
+
+        // Создание информационного файла если основной файл недоступен
+        function createInfoFile(item) {
+            const content = `
+        L1SKI - ${item.type === 'resource-packs' ? 'Ресурс-пак' : 'Мод'}
+
+        НАЗВАНИЕ: ${item.name}
+        АВТОР: ${item.author}
+        ДАТА ДОБАВЛЕНИЯ: ${item.date}
+        СКАЧИВАНИЙ: ${item.downloads}
+        РАЗМЕР: ${item.size} MB
+
+        ОПИСАНИЕ:
+        ${item.description}
+
+        ВНИМАНИЕ:
+        Файл временно недоступен для скачивания.
+        Попробуйте обновить страницу или свяжитесь с автором.
+
+        Telegram канал: https://t.me/l1ski_official
+            `.trim();
+
+            const blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${item.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_info.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+            showNotification(`📝 Создан информационный файл для: ${item.name}`, 'warning');
+        }
+
+        function editItem(item) {
+            if (!isAuthenticated) {
+                showNotification('Сначала войдите с кодом доступа!', 'error');
+                securityCodeInput.focus();
+                return;
+            }
+
+            editingItem = item;
+
+            document.getElementById('itemType').value = item.type;
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemDescription').value = item.description;
+            document.getElementById('itemAuthor').value = item.author;
+
+            imagePreview.innerHTML = `<img src="${item.image}" alt="Предпросмотр">`;
+            imagePreview.style.display = 'block';
+
+            const extension = item.fileName ? item.fileName.split('.').pop() : 'zip';
+            fileInfo.innerHTML = `
+                <div style="background: rgba(255, 215, 0, 0.1); padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-archive" style="color: var(--primary);"></i>
+                        <div>
+                            <strong style="color: var(--primary);">${item.name}.${extension}</strong>
+                            <div style="color: var(--gray); font-size: 0.9rem;">${item.size} MB</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            submitBtnText.textContent = 'Обновить';
+            deleteBtn.style.display = 'flex';
+
+            if (!devPanel.classList.contains('active')) {
+                toggleDevPanel();
+            }
+
+            switchTab(item.type);
+        }
+
+        function openItemModal(item) {
+            document.getElementById('modalTitle').textContent = item.name;
+            document.getElementById('modalImage').src = item.image;
+            document.getElementById('modalDescription').textContent = item.description;
+            document.getElementById('modalAuthor').textContent = item.author;
+            document.getElementById('modalDownloads').textContent = item.downloads || 0;
+            document.getElementById('modalDate').textContent = item.date;
+            document.getElementById('modalSize').textContent = `${item.size} MB`;
+
+            modalDownloadBtn.onclick = () => downloadItem(item);
+
+            itemModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeItemModal() {
+            itemModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleModalDownload() {
+            const itemName = document.getElementById('modalTitle').textContent;
+            const itemType = document.querySelector('.tab-btn.active').dataset.tab;
+            const item = items[itemType].find(i => i.name === itemName);
+
+            if (item) {
+                downloadItem(item);
+                closeItemModal();
+            }
+        }
+
+        function resetForm() {
+            itemForm.reset();
+            imagePreview.innerHTML = '';
+            imagePreview.style.display = 'none';
+            fileInfo.innerHTML = '';
+            editingItem = null;
+            submitBtnText.textContent = 'Добавить';
+            deleteBtn.style.display = 'none';
+        }
+
+        function updateEmptyStates() {
+            const resourceEmpty = document.getElementById('resource-empty');
+            const modsEmpty = document.getElementById('mods-empty');
+
+            resourceEmpty.style.display = items['resource-packs'].length === 0 ? 'block' : 'none';
+            modsEmpty.style.display = items['mods'].length === 0 ? 'block' : 'none';
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                background: ${type === 'success' ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 68, 68, 0.2)'};
+                border: 1px solid ${type === 'success' ? 'var(--success)' : 'var(--danger)'};
+                color: ${type === 'success' ? 'var(--success)' : 'var(--danger)'};
+                border-radius: 10px;
+                z-index: 4000;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+                animation: slideInRight 0.3s ease;
+                backdrop-filter: blur(10px);
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add CSS for notification animation
+        const notificationStyle = document.createElement('style');
+        notificationStyle.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(notificationStyle);
+
+        // Снежинки и звезды
+        function createSnowflakes() {
+            const snowContainer = document.getElementById('snowflakes');
+            const snowflakeCount = 150;
+
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+
+                const size = Math.random() * 4 + 2;
+                snowflake.style.width = `${size}px`;
+                snowflake.style.height = `${size}px`;
+
+                snowflake.style.left = `${Math.random() * 100}%`;
+                snowflake.style.opacity = Math.random() * 0.8 + 0.2;
+
+                const delay = Math.random() * 10;
+                const duration = Math.random() * 20 + 10;
+
+                snowflake.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+                snowContainer.appendChild(snowflake);
+            }
+        }
+
+        // Add CSS for snow animation
+        const snowStyle = document.createElement('style');
+        snowStyle.textContent = `
+            @keyframes fall {
+                0% {
+                    transform: translateY(-100px) translateX(0) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(100vh) translateX(100px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(snowStyle);
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // =================== ИНИЦИАЛИЗАЦИЯ ===================
+        document.addEventListener('DOMContentLoaded', function() {
+            createSnowflakes();
+            createStars();
+            setupEventListeners();
+            checkURLForSharedData();
+
+            // Сначала загружаем локальные данные для быстрого отображения
+            loadFromLocalStorage();
+            renderItems('resource-packs');
+            renderItems('mods');
+            updateEmptyStates();
+            updateDataStatus();
+
+            // Затем пытаемся синхронизировать с облаком
+            setTimeout(() => {
+                loadFromCloud();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
